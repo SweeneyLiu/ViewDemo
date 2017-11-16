@@ -65,10 +65,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void getButtonWidth4() {
         ViewTreeObserver viewTreeObserver = mButton.getViewTreeObserver();
+        //在 SDK Lvl < 16时使用 removeGlobalOnLayoutListener(this)
+        //在 SDK Lvl >= 16时使用 removeOnGlobalLayoutListener(this)
         viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                mButton.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                //防止被触发多次
+                mButton.getViewTreeObserver().removeGlobalOnLayoutListener(this);
 //                width = mButton.getWidth();
                 width = mButton.getMeasuredWidth();
                 Log.i(TAG, "onCreate: "+width);
